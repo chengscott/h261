@@ -19,6 +19,7 @@ extern void motion_estimation(void);
 extern int16 full_search_ME(MEM *preBLK, MEM *curBLK);
 extern int16 three_step_search_ME(MEM *preBLK, MEM *curBLK);
 extern int16 new_three_step_search_ME(MEM *preBLK, MEM *curBLK);
+extern int16 my_search_ME(MEM *preBLK, MEM *curBLK);
 
 /*************************************************************************/
 /* dct.c */

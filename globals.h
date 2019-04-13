@@ -119,6 +119,7 @@ MB_HEADER {
 #define FULL_SEARCH         	0	/* use full_search_ME() */
 #define THREE_STEP_SEARCH      	1	/* use three_step_search_ME() */
 #define NEW_THREE_STEP_SEARCH	2	/* use new_three_step_search_ME() */
+#define MY_SEARCH	3	/* use my_search_ME() */
 
 /*************************************************************************/
 /* for debug */

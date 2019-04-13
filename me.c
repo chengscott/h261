@@ -16,6 +16,7 @@ extern void motion_estimation(void);
 extern int16 full_search_ME(MEM *preBLK, MEM *curBLK);
 extern int16 three_step_search_ME(MEM *preBLK, MEM *curBLK);
 extern int16 new_three_step_search_ME(MEM *preBLK, MEM *curBLK);
+extern int16 my_search_ME(MEM *preBLK, MEM *curBLK);
 
 /*************************************************************************/
 /* frame stores */
@@ -171,6 +172,7 @@ void motion_estimation(void)
 						+ (-MVDV_memloc[-MVDV]
 						+ (MVDH>>1));
 					}
+					//copy_MB(rec_frame, ori_frame);
 					SET_memloc(rec_frame,
 						Y_memloc, CbCr_memloc);
 					SET_memloc(rec_frame_backup,
@@ -781,6 +783,73 @@ int16 NTSS_ME(MEM *preBLK, MEM *curBLK)
 		MVDH = new_x - CurrentX;
 		MVDV = new_y - CurrentY;
 	}
+
+	return AE;
+}
+
+/*************************************************************************
+ *
+ *	Name:	   	my_search_ME()
+ *	Description:	apply my search algorithm to obtain AE and MV
+ *	Input:		the pointers to the current and previous Y frames
+ *	Return:		the found minimum absolute error
+ *	Side effects:	MVDH and MVDV may be updated
+ *
+ *************************************************************************/
+/* my search:
+ * search area: (0, 0) +-15
+ * AE_best and (MVDH, MVDV) can be used
+ */
+int16 my_search_ME(MEM *preBLK, MEM *curBLK)
+{
+	DEBUG("my_search_ME");
+	int16 ae, AE;
+	int16 new_x, new_y, pre_x, pre_y;
+	int16 x, y, max_x, max_y;
+	int16 dx, dy;
+
+	/* x range of the upper-left point: 0, ..., max_x */
+	/* y range of the upper-left point: 0, ..., max_y */
+	max_x = preBLK->width - 16;
+	max_y = preBLK->height - 16;
+
+	AE = AE_best;
+	new_x = CurrentX + MVDH;
+	new_y = CurrentY + MVDV;
+
+	/* MV start from (0, 0) */
+	pre_x = CurrentX;
+	pre_y = CurrentY;
+
+	for (dx=1; dx<=15; dx++) {
+		/* (x, y) = (+, +) */
+		for (dy=0; dy<=15; dy++) {
+			if ((dx + dy + 15) % 2 == 0)
+				P_P(dx, dy);
+		}
+
+		/* (x, y) = (+, -) */
+		for (dy=-1; dy>=-15; dy--) {
+			P_N(dx, dy);
+		}
+	}
+
+	for (dx=0; dx>=-15; dx--) {
+		/* (x, y) = (-, +) */
+		for (dy=0; dy<=15; dy++) {
+			if ((dx + dy + 15) % 2 == 0)
+				N_P(dx, dy);
+		}
+
+		/* (x, y) = (-, -) */
+		for (dy=-1; dy>=-15; dy--) {
+			if ((dx + dy + 15) % 2 == 0)
+				N_N(dx, dy);
+		}
+	}
+
+	MVDH = new_x - CurrentX;
+	MVDV = new_y - CurrentY;
 
 	return AE;
 }

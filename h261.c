@@ -335,6 +335,9 @@ void main(int argc, char **argv)
 				case NEW_THREE_STEP_SEARCH:
 					default_me_algo = new_three_step_search_ME;
 					break;
+				case MY_SEARCH:
+					default_me_algo = my_search_ME;
+					break;
 				default:
 					printf("Out of range: -%c %s, change to %d\n",
 						*argv[i-1], argv[i], THREE_STEP_SEARCH);
@@ -1537,5 +1540,6 @@ static void help1(void)
 	printf("\t\t-m %d     use full_search\n",	FULL_SEARCH);
 	printf("\t\t-m %d     use three_step_search\n", THREE_STEP_SEARCH);
 	printf("\t\t-m %d     use new_three_step_search\n", NEW_THREE_STEP_SEARCH);
+	printf("\t\t-m %d     use my_search\n", MY_SEARCH);
 	printf("\n");
 }

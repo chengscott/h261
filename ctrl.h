@@ -36,7 +36,7 @@
 
 /*************************************************************************/
 /* run statistics() (obtain psnr for each frame) or not */
-/*#define CTRL_PSNR		/* h261.c stat.c */
+#define CTRL_PSNR		/* h261.c stat.c */
 
 /*************************************************************************/
 /* all intra mode or not */

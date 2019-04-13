@@ -224,6 +224,10 @@ void DCT(short int *x, short int *y)
 	/* We have an additional factor of 8 in the Chen algorithm. */
 	for (i=0, aptr=y; i<64; i++, aptr++)
 		*aptr = (((*aptr<0) ? (*aptr-4) : (*aptr+4))/8);
+
+	//for (i=0; i<64; i++) {
+	//  if (i % 8 >= 4 || i / 8 >= 4) x[i] = 0;
+	//}
 }
 
 /* row-column based using Chen's IDCT */

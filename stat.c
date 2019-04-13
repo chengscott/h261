@@ -55,6 +55,7 @@ void statistics(FSTORE *ref_fs, FSTORE *fs)
 	sum_psnr[_Y] += (psnr_y = psnr(ref_fs->fs[_Y], fs->fs[_Y]));
 	sum_psnr[_Cb] += (psnr_cb = psnr(ref_fs->fs[_Cb], fs->fs[_Cb]));
 	sum_psnr[_Cr] += (psnr_cr = psnr(ref_fs->fs[_Cr], fs->fs[_Cr]));
+	printf("Y-PSNR: %f\n", psnr_y);
 	#endif
 }
 
